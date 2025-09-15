@@ -29,6 +29,11 @@ public class Spawner : MonoBehaviour
 
     void SpawnEnemy()
     {
+        if (GameManager.instance != null && GameManager.instance.isGameOver)
+        {
+            return;
+        }
+
         float xSpawn = Random.Range(xMin, xMax);
         Vector3 spawnPosition = new Vector3(xSpawn, ySpawn, 0);
         Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
