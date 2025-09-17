@@ -14,6 +14,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI scoreText;
     [SerializeField] GameObject gameOverText;
 
+    [SerializeField] int maxHealth = 100;
+    [SerializeField] TextMeshProUGUI healthText;
+    int currentHealth;
+
     private void Awake()
     {
         instance = this;
@@ -22,7 +26,7 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        currentHealth = maxHealth;
     }
 
     // Update is called once per frame
@@ -45,5 +49,24 @@ public class GameManager : MonoBehaviour
         isGameOver = true;
         gameOverText.SetActive(true);
 
+    }
+
+    public void ApplyDamage(int amount)
+    {
+        if (isGameOver)
+        {
+            return;
+        }
+
+        currentHealth = Mathf.Max(0, currentHealth - amount);
+        if (healthText != null)
+        {
+            healthText.text = "Health: " + currentHealth;
+        }
+
+        if (currentHealth <= 0)
+        {
+            InitiateGameOver();
+        }
     }
 }
